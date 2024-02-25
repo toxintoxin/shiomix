@@ -1,70 +1,72 @@
-read_excel_name <- function(file, sheet) {
-  ext <- tools::file_ext(file$name)
-  if (ext == "csv") {
-    x <- str_extract(file$name, ".*(?=\\.)")
-  } else if (ext == "xlsx") {
-    x <- paste0(str_extract(file$name, ".*(?=\\.)"), "_#", sheet, "#")
-  }
-  return(x)
-}
-
-read_excel_data <- function(file, sheet) {
-  ext <- tools::file_ext(file$name)
-  if (ext == "csv") {
-    x <- read_csv(file$datapath)
-  } else if (ext == "xlsx") {
-    x <- read_xlsx(file$datapath, sheet)
-  }
-  return(x)
-}
-
-
-excelInput <- function(id) {
+excelInput <- function(id, header) {
   ns <- NS(id)
   tagList(
-    div(style = "margin-bottom: -15px;", fileInput(ns("excel"), label = ".csv, or .xlsx", accept = c(".csv", ".xlsx"), multiple = FALSE)),
-    uiOutput(ns("sheetUI"))
+    tags$b(header),
+    fileInput(ns("file"), label = ".csv or .xlsx", accept = c(".csv", ".xlsx")),
+    uiOutput(ns("sheet_ui")),
+    actionButton(ns("read"), label = "Read")
   )
 }
 
-excelInputServer <- function(id, returnValue = NULL) {
+excelServer <- function(id, na = c("", "NA")) {
   moduleServer(id, function(input, output, session) {
+
     ns <- session$ns
-    if (returnValue == "name") {
-      myreturn <- reactive({
-        req(input$excel)
-        ext <- tools::file_ext(input$excel$name)
-        if (ext == "csv") {
-          return(str_extract(input$excel$name, ".*(?=\\.)"))
-        } else if (ext == "xlsx") {
-          req(input$sheet)
-          return(paste0(str_extract(input$excel$name, ".*(?=\\.)"), "_#", input$sheet, "#"))
-        }
-      })
-      return(myreturn())
-    } else if (returnValue == "data") {
-      myreturn <- reactive({
-        req(input$excel)
-        ext <- tools::file_ext(input$excel$name)
-        if (ext == "csv") {
-          return(read_csv(input$excel$datapath))
-        } else if (ext == "xlsx") {
-          req(input$sheet)
-          return(read_xlsx(input$excel$datapath, input$sheet))
-        }
-      })
-      return(myreturn())
-    } else if (returnValue == "1") {
-      output$sheetUI <- renderUI({
-        req(input$excel)
-        ext <- tools::file_ext(input$excel$name)
-        if (ext == "xlsx") {
-          selectInput(ns("sheet"), "Sheet", choices = excel_sheets(input$excel$datapath))
-        }
-      })
-    }
+
+    ext <- eventReactive(input$file, {
+      tools::file_ext(input$file$name)
+    })
+
+    output$sheet_ui <- renderUI({
+      req(ext())
+      if (ext() == "xlsx") {
+        selectInput(ns("sheet"), "Sheet", choices = excel_sheets(input$file$datapath))
+      }
+    })
+
+    Data <- reactiveVal()
+    Name <- reactiveVal()
+
+    observe({toggleState("read", condition = !is.null(input$file))})
+
+    observeEvent(input$read, {
+      if (ext() == "csv") {
+        df <- read_csv(input$file$datapath, na = na) %>% as.data.frame()
+        Data(df)
+        Name(str_extract(input$file$name, ".*(?=\\.)"))
+      } else if (ext() == "xlsx") {
+        df <- read_xlsx(input$file$datapath, input$sheet, na = na) %>% as.data.frame()
+        Data(df)
+        Name(paste0(str_extract(input$file$name, ".*(?=\\.)"), "_#", input$sheet, "#"))
+      }
+    })
+
+    return(list(data = Data, name = Name))
+
   })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 friendlyAct <- function(id, label, icon = NULL, class = "btn-default") {
   ns <- NS(id)

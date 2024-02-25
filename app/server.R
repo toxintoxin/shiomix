@@ -1,17 +1,18 @@
 server <- function(input, output, session) {
 
-  rv <- reactiveValues()
+  # navigation
+  observe(nav_select("container", input$nav))
 
-  ppServer("pp", rv)
+  # data science
+  ppServer("pp")
+  aggrServer("aggr")
+  vsServer("vs")
 
-  vsServer("vs", rv)
+  # mass tools
+  enviPatServer("enviPat")
+  tfServer("tf")
 
-  aggrServer("aggr", rv)
-
-  tfServer("tf", rv)
-
-  enviPatServer("enviPat", rv)
-
-  md5Server("md5", rv)
+  # toolkits
+  md5Server("md5")
 
 }
