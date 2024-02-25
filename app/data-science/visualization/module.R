@@ -22,7 +22,7 @@ vsUI <- function(id) {
           })
         ),
         layout_sidebar(border = FALSE,
-          sidebar = sidebar(width = "500px", open = "always",
+          sidebar = sidebar(width = "700px", open = "always",
             lapply(vs_types, function(vs_type) {
               conditionalPanel(ns = ns, condition = paste0("input.nav == '", vs_type, "'"), get(paste0(vs_type, "UI"))(ns(vs_type)))
             })
@@ -154,14 +154,14 @@ vsServer <- function(id) {
 vsUniversalUI <- function(id) {
   ns <- NS(id)
   tagList(
-    layout_columns(col_widths = c(3, 1, 3, 3, 2),
-      actionButton(ns("apply"), label = "Apply and refresh"),
+    layout_columns(col_widths = c(2, 3, 3, 4),
+      actionButton(ns("apply"), label = "Apply & Refresh"),
       # input_switch(ns("plotly"), label = "Building Plotly"),
-      helpText("长宽值只影响预览，具体大小取决于保存的方式"),
       numericInputIcon(ns("output_width"), label = NULL, min = 200, max = 3000, value = 600, icon = list("宽", "px")),
       numericInputIcon(ns("output_height"), label = NULL, min = 200, max = 1500, value = 400, icon = list("高", "px")),
       # conditionalPanel(ns = ns, condition = "input.plotly == false",
-        layout_columns(col_widths = c(8, 4),
+        layout_columns(col_widths = c(7, 5),
+          helpText("长宽值只影响预览，具体大小取决于保存的方式"),
           # selectInput(ns("output_res"), label = NULL, choices = c(72, 300, 600), selected = 72),
           # textOutput(ns("output_size")),
           dropMenu(

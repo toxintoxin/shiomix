@@ -10,7 +10,6 @@ gglabsUI <- function(id) {
   )
 }
 
-
 gglabsServer <- function(id, ggobj) {
   moduleServer(id, function(input, output, session){
     p_return <- reactive({
