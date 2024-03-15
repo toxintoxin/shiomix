@@ -205,7 +205,9 @@ aggrServer <- function(id) {
         paste0(rv$name, "_aggregate", ".xlsx")
       },
       content = function(file) {
-        list_of_datasets <- sapply(datas, function(data_name) rv[[data_name]])
+        list_of_datasets <- sapply(datas, function(data_name) {
+          rv[[data_name]]
+        })
         write.xlsx(list_of_datasets, file)
       }
     )

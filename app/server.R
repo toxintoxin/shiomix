@@ -1,12 +1,18 @@
 server <- function(input, output, session) {
 
-  # navigation
-  observe(nav_select("container", input$nav))
-
   # data science
-  ppServer("pp")
-  aggrServer("aggr")
+  # aggrServer("aggr")
+  statServer("stat")
+  lapply(stat_types, function(stat_type) {
+    get(paste0(stat_type, "Server"))(stat_type)
+  })
   vsServer("vs")
+  lapply(vs_types, function(vs_type) {
+    get(paste0(vs_type, "Server"))(vs_type)
+  })
+
+  # omics
+  ppServer("pp")
 
   # mass tools
   enviPatServer("enviPat")

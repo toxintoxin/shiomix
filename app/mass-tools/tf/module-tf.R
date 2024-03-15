@@ -149,7 +149,7 @@ tfServer <- function(id) {
     lapply(1:5, function(i) {
       output[[paste0("downloadBtn", i)]] <- downloadHandler(
         filename = function() {
-          paste0(str_extract(input$file$name, ".*(?=\\.)"), "_", file_suffixes[i], ".csv")
+          paste0(rv$name, "_", file_suffixes[i], ".csv")
         },
         content = function(file) {
           write_csv(rv[[paste0("result", i)]], file, na = "")

@@ -1,39 +1,14 @@
 vsUI <- function(id) {
   ns <- NS(id)
-  layout_sidebar(height = "900px", border = FALSE, class = "p-0",
-    sidebar = sidebar(width = "200px",
-      actionButton(ns("nav_fullscreen"), "切换视图进行导航 (still building)"),
-      radioButtons(ns("nav"), label = "Visualization types",
-        choiceNames = c("柱状图", "箱线图", "热图", "折线图", "主成分分析", "饼图","散点图", "雷达图", "小提琴图", "火山图", "南丁格尔玫瑰图", "韦恩图"),
-        choiceValues = c("bar", "box", "heatmap", "line", "pca", "pie", "point", "radar", "violin", "volcano", "nightingale", "venn")
-      )
-    ),
-    div(
-      div(style = "display: flex;",
-        span(textOutput(ns("show_temp")), style = "margin-right: auto; font-weight: bolder; font-size: x-large;"),
-        lapply(vs_types, function(vs_type) {
-          conditionalPanel(ns = ns, condition = paste0("input.nav == '", vs_type, "'"), actionButton(ns(vs_type), "Restart (still building)"))
-        })
-      ),
-      layout_sidebar(border_radius = FALSE, class = "p-0",
-        sidebar = sidebar(
-          lapply(vs_types, function(vs_type) {
-            conditionalPanel(ns = ns, condition = paste0("input.nav == '", vs_type, "'"), includeMarkdown(paste0("data-science/visualization/types-readme/", vs_type, ".md")))
-          })
-        ),
-        layout_sidebar(border = FALSE,
-          sidebar = sidebar(width = "700px", open = "always",
-            lapply(vs_types, function(vs_type) {
-              conditionalPanel(ns = ns, condition = paste0("input.nav == '", vs_type, "'"), get(paste0(vs_type, "UI"))(ns(vs_type)))
-            })
-          ),
-          lapply(vs_types, function(vs_type) {
-            conditionalPanel(ns = ns, condition = paste0("input.nav == '", vs_type, "'"), vsUniversalUI(ns(vs_type)))
-          })
-        )
-      )
-    )
-  )
+  # layout_sidebar(height = "900px", border = FALSE, class = "p-0",
+  #   sidebar = sidebar(width = "200px",
+  #     actionButton(ns("nav_fullscreen"), "切换视图进行导航 (still building)"),
+  #     radioButtons(ns("nav"), label = "Visualization types",
+  #       choiceNames = c("柱状图", "箱线图", "热图", "折线图", "主成分分析", "饼图","散点图", "雷达图", "小提琴图", "火山图", "南丁格尔玫瑰图", "韦恩图"),
+  #       choiceValues = c("bar", "box", "heatmap", "line", "pca", "pie", "point", "radar", "violin", "volcano", "nightingale", "venn")
+  #     )
+  #   )
+  # )
 }
 
 vsServer <- function(id) {
@@ -41,13 +16,9 @@ vsServer <- function(id) {
 
     ns <- session$ns
 
-    lapply(vs_types, function(vs_type) {
-      get(paste0(vs_type, "Server"))(vs_type)
-    })
-
-    output$show_temp <- renderText({
-      input$nav
-    })
+    # lapply(vs_types, function(vs_type) {
+    #   get(paste0(vs_type, "Server"))(vs_type)
+    # })
 
     # observeEvent(input$nav, {
 
@@ -154,29 +125,34 @@ vsServer <- function(id) {
 vsUniversalUI <- function(id) {
   ns <- NS(id)
   tagList(
-    layout_columns(col_widths = c(2, 3, 3, 4),
-      actionButton(ns("apply"), label = "Apply & Refresh"),
+    div(style = "display: flex; gap: 20px;",
+      actionButton(ns("apply"), label = "Apply & Refresh", width = "200px"),
+      numericInput(ns("output_width"), label = "Width (px)", width = "100px", min = 100, max = 3000, value = 400),
+      numericInput(ns("output_height"), label = "Height (px)", width = "100px", min = 100, max = 3000, value = 600),
+      dropMenu(
+        actionButton(ns("output_ggsave"), "导出为", icon = icon("image"), style = "margin-left: auto;"),
+        placement = "bottom-end", arrow = FALSE,
+        div(
+          class = "dropMenu-column",
+          downloadButton(ns("output_ggsave_png_72"), label = "PNG (dpi = 72)", icon = NULL),
+          downloadButton(ns("output_ggsave_png_300"), label = "PNG (dpi = 300)", icon = NULL),
+          downloadButton(ns("output_ggsave_svg"), label = "SVG", icon = NULL)
+        )
+      )
+    ),
+
+
+
+
+
       # input_switch(ns("plotly"), label = "Building Plotly"),
-      numericInputIcon(ns("output_width"), label = NULL, min = 200, max = 3000, value = 600, icon = list("宽", "px")),
-      numericInputIcon(ns("output_height"), label = NULL, min = 200, max = 1500, value = 400, icon = list("高", "px")),
+
       # conditionalPanel(ns = ns, condition = "input.plotly == false",
-        layout_columns(col_widths = c(7, 5),
-          helpText("长宽值只影响预览，具体大小取决于保存的方式"),
           # selectInput(ns("output_res"), label = NULL, choices = c(72, 300, 600), selected = 72),
           # textOutput(ns("output_size")),
-          dropMenu(
-            actionButton(ns("output_ggsave"), "导出为", icon = icon("image")),
-            placement = "bottom-end", arrow = FALSE,
-            div(
-              class = "dropMenu-column",
-              downloadButton(ns("output_ggsave_png_72"), label = "PNG (dpi = 72)", icon = NULL),
-              downloadButton(ns("output_ggsave_png_300"), label = "PNG (dpi = 300)", icon = NULL),
-              downloadButton(ns("output_ggsave_svg"), label = "SVG", icon = NULL)
-            )
-          )
-        )
+
       # )
-    ),
+
     uiOutput(ns("plotoutput_ui")),
     # conditionalPanel(ns = ns, condition = "input.plotly == true", plotlyOutput(ns("plotly"), width = 600, height = 400))
   )
@@ -184,7 +160,7 @@ vsUniversalUI <- function(id) {
 
 
 
-vsUniversalServer <- function(id, plot_final, prefix, suffix) {
+vsUniversalServer <- function(id, suffix, rv) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
@@ -199,56 +175,52 @@ vsUniversalServer <- function(id, plot_final, prefix, suffix) {
     #   as.numeric(input$output_res)
     # })
 
-    # output$output_size <- renderText({
-    #   paste0("实际大小: ", round(width() /72 *25.4, 2), " x ", round(height() /72 *25.4, 2), " mm")    # res先设72
-    # })
+    output$output_size <- renderText({
+      paste0("实际大小: ", round(width() /96 *25.4, 2), " x ", round(height() /96 *25.4, 2), " mm")    # 96是因为renderplot的res设为了96
+    })
 
-    # observe({
-    #   toggleState("output_ggsave", condition = !is.null(plot_final()))
-    # })
-
+    observe({
+      toggleState("output_ggsave", condition = !is.null(rv$plot_final))
+    })
 
     output$output_ggsave_png_72 <- downloadHandler(
       filename = function() {
-        paste0(prefix, "_", suffix, ".png")
+        paste0(rv$name, "_", suffix, ".png")
       },
       content = function(file) {
-        ggsave(file, plot = plot_final(), device = "png", width = width(), height = height(), unit = "px", dpi = 72)
+        ggsave(file, plot = rv$plot_final, device = "png", width = width() /96 *72, height = height() /96 *72, unit = "in", dpi = 72)
       }
     )
 
-
-
     output$output_ggsave_png_300 <- downloadHandler(
       filename = function() {
-        paste0(prefix, "_", suffix, ".png")
+        paste0(rv$name, "_", suffix, ".png")
       },
       content = function(file) {
-        ggsave(file, plot = plot_final(), device = "png", width = width() /72 *300, height = height() /72 *300, unit = "px", dpi = 300)
+        ggsave(file, plot = rv$plot_final, device = "png", width = width() /96 *300, height = height() /96 *300, unit = "in", dpi = 300)
       }
     )
 
     output$output_ggsave_svg <- downloadHandler(
       filename = function() {
-        paste0(prefix, "_", suffix, ".svg")
+        paste0(rv$name, "_", suffix, ".svg")
       },
       content = function(file) {
-        ggsave(file, plot = plot_final(), device = "svg", width = width(), height = height(), unit = "px", dpi = 72)
+        ggsave(file, plot = rv$plot_final, device = "svg", width = width(), height = height(), unit = "px", dpi = 72)
       }
     )
 
     output$plotoutput_ui <- renderUI({
       plotOutput(ns("plot"), width = width(), height = height())
     })
-
+    # shiny render and save solution
+    # https://www.tidyverse.org/blog/2020/08/taking-control-of-plot-scaling/
     # observeEvent(input$output_res, {
       output$plot <- renderPlot(
-        res = 72,  # default is 72
+        res = 96,  # default paramter is 72, R is 96
         {
-          input$apply
-          isolate({
-            plot_final()
-          })
+          req(rv$plot_final)
+          rv$plot_final
         }
       )
     # })

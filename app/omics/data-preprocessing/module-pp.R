@@ -89,7 +89,9 @@ ppUI <- function(id) {
         sidebar = sidebar(width = "25%", open = "always",
           downloadButton(ns("export_multi_csv"), label = "导出多个csv (still building)"),
           downloadButton(ns("export_xlsx"), label = "导出xlsx"),
-          downloadButton(ns("export_rmd"), label = "导出Rmarkdown (still building)")
+          downloadButton(ns("export_rmd"), label = "导出Rmarkdown (still building)"),
+          hr(),
+          downloadButton(ns("export_classed"), label = "导出分类求和的, 仅对用第一个空格前的字符表示类别的数据有效"),
         ),
         "如果是csv，导出名总为originalfilename_preprocessing", br(),
         "如果是xlsx，导出名总为originalfilename_#sheetname#_preprocessing"
@@ -366,6 +368,23 @@ ppServer <- function(id) {
         )
       })
     })
+
+
+    # classed
+    output$export_classed <- downloadHandler(
+      filename = function() {
+        paste0(rv$name, "_preprocessing_o_m_n_SumClassed", ".csv")
+      },
+      content = function(file) {
+        rv$data_o_m_n_classed <- rv$data_o_m_n %>%
+          mutate(class = str_extract(var, "\\S+")) %>%
+          mutate(sample = fct_inorder(sample), class = fct_inorder(class)) %>%
+          group_by(sample, class) %>%
+          summarise(sum = sum(value)) %>%
+          pivot_wider(names_from = "sample", values_from = "sum")
+        write_csv(rv$data_o_m_n_classed, file)
+      }
+    )
 
   })
 }

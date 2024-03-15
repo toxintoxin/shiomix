@@ -12,17 +12,14 @@ gglabsUI <- function(id) {
 
 gglabsServer <- function(id, ggobj) {
   moduleServer(id, function(input, output, session){
-    p_return <- reactive({
-      p <- ggobj() + labs(
-        title = if(input$labs_title == "") {NULL} else{input$labs_title},
-        subtitle = if(input$labs_subtitle == "") {NULL} else{input$labs_subtitle},
-        caption = if(input$labs_caption == "") {NULL} else{input$labs_caption},
-        tag = if(input$labs_tag == "") {NULL} else{input$labs_tag},
-        x = if(input$labs_x == "") {NULL} else{input$labs_x},
-        y = if(input$labs_y == "") {NULL} else{input$labs_y}
-      )
-      return(p)
-    })
+    p_return <- ggobj + labs(
+      title = if(input$labs_title == "") {NULL} else{input$labs_title},
+      subtitle = if(input$labs_subtitle == "") {NULL} else{input$labs_subtitle},
+      caption = if(input$labs_caption == "") {NULL} else{input$labs_caption},
+      tag = if(input$labs_tag == "") {NULL} else{input$labs_tag},
+      x = if(input$labs_x == "") {NULL} else{input$labs_x},
+      y = if(input$labs_y == "") {NULL} else{input$labs_y}
+    )
     return(p_return)
   })
 }
