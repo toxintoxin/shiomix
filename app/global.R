@@ -13,27 +13,41 @@ library(readr)
 library(readxl)
 library(openxlsx)
 library(ggplot2)
+library(ggrepel)
 library(plotly)
 # library(ComplexHeatmap)
 library(enviPat)
+data(adducts)
+# 扩展adducts
+adducts_H2O_H <- list("M-H2O+H", NA, 1, 1, NA, "positive", "H1", "H2O1", 1)
+adducts <- rbind(adducts, adducts_H2O_H)
+data(isotopes)
 library(markdown)
 library(broom)  # tidy()
-
 options(shiny.maxRequestSize = 100 * 1024^2)
 
 source("helpers.R")
+
 source("data-science/aggregate/module-aggr.R")
+
 source("data-science/statistics/module-stat.R")
-stat_modules <- list.files("data-science/statistics/stat-modules/", pattern = "\\.R$", full.names = TRUE)
-lapply(stat_modules, source)
-stat_types <- tools::file_path_sans_ext(list.files("data-science/statistics/stat-modules", pattern = "\\.R$"))
+stat_modules_files <- list.files("data-science/statistics/modules/", pattern = "\\.R$", full.names = TRUE)
+lapply(stat_modules_files, source)
+stat_modules <- tools::file_path_sans_ext(basename(stat_modules_files))
+
 source("data-science/visualization/module-vs.R")
-helpers_script <- list.files("data-science/visualization/helpers", pattern = "\\.R$", full.names = TRUE)
+helpers_script <- list.files("data-science/visualization/helpers/", pattern = "\\.R$", full.names = TRUE)
 lapply(helpers_script, source)
-vs_modules <- list.files("data-science/visualization/vs-modules", pattern = "\\.R$", full.names = TRUE)
-lapply(vs_modules, source)
-vs_types <- tools::file_path_sans_ext(list.files("data-science/visualization/vs-modules", pattern = "\\.R$"))
+vs_modules_files <- list.files("data-science/visualization/modules/", pattern = "\\.R$", full.names = TRUE)
+lapply(vs_modules_files, source)
+vs_modules <- tools::file_path_sans_ext(basename(vs_modules_files))
+
 source("omics/data-preprocessing/module-pp.R")
-source("mass-tools/enviPat/module-enviPat.R")
+
+enviPat_modules_files <- list.files("mass-tools/enviPat/modules/", pattern = "\\.R$", full.names = TRUE)
+lapply(enviPat_modules_files, source)
+enviPat_modules <- tools::file_path_sans_ext(basename(enviPat_modules_files))
+
 source("mass-tools/tf/module-tf.R")
+
 source("toolkits/md5check/module-md5check.R")

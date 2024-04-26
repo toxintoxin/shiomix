@@ -3,19 +3,22 @@ server <- function(input, output, session) {
   # data science
   # aggrServer("aggr")
   statServer("stat")
-  lapply(stat_types, function(stat_type) {
-    get(paste0(stat_type, "Server"))(stat_type)
+  lapply(stat_modules, function(stat_module) {
+    get(paste0(stat_module, "Server"))(stat_module)
   })
   vsServer("vs")
-  lapply(vs_types, function(vs_type) {
-    get(paste0(vs_type, "Server"))(vs_type)
+  lapply(vs_modules, function(vs_module) {
+    get(paste0(vs_module, "Server"))(vs_module)
   })
 
   # omics
   ppServer("pp")
 
   # mass tools
-  enviPatServer("enviPat")
+  # enviPatServer("enviPat")
+  lapply(enviPat_modules, function(enviPat_module) {
+    get(paste0(enviPat_module, "Server"))(enviPat_module)
+  })
   tfServer("tf")
 
   # toolkits

@@ -1,6 +1,6 @@
 statUI <- function(id) {
   ns <- NS(id)
-  # layout_sidebar(height = "900px", border = FALSE, class = "p-0",
+  # layout_sidebar(height = "700px", border = FALSE, class = "p-0",
   #   sidebar = sidebar(width = "200px",
   #     radioButtons(ns("nav"), label = "Statistical types",
   #       choiceNames = c("ttest"),

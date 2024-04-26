@@ -7,7 +7,7 @@ barUI <- function(id) {
       actionButton(ns("restart"), "Restart (still building)")
     ),
     layout_sidebar(border_radius = FALSE, class = "p-0",
-      sidebar = sidebar(width = "900px", open = "always",
+      sidebar = sidebar(width = "700px", open = "always",
         navset_pill_list(widths = c(2, 10),
           nav_panel("Upload",
             excelInput(ns("data"), header = "Data"),
@@ -78,7 +78,7 @@ barUI <- function(id) {
           nav_panel("Theme", ggthemeUI(ns(NULL)))
         )
       ),
-      layout_sidebar(border = FALSE,
+      layout_sidebar(border = FALSE, style = "background: #eeeddd",
         sidebar = sidebar(width = "300px", position = "right",
           includeMarkdown(paste0("data-science/visualization/types-readme/", id, ".md")),
         ),

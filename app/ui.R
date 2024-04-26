@@ -5,7 +5,6 @@ ui <- tagList(
   ),
   useShinyjs(),
   page_fillable(
-    theme = bs_theme(preset = "bootstrap"),
     title = "Shiomix",
     navset_pill_list(widths = c(2, 10),
       nav_panel("Introduction", includeMarkdown("homepage.md")),
@@ -26,7 +25,11 @@ ui <- tagList(
       nav_panel("Data Preprocessing", ppUI("pp")),
       "Mass tools",
       nav_panel("Introduction", includeMarkdown("mass-tools/mass-tools.md")),
-      nav_panel("enviPat", enviPatUI("enviPat")),
+      nav_menu("enviPat", align = "right",
+        nav_panel("formula_handle", formula_handleUI("formula_handle")),
+        nav_panel("formula_calc_single", formula_calc_singleUI("formula_calc_single")),
+        nav_panel("formula_calc", formula_calcUI("formula_calc"))
+      ),
       nav_panel("TraceFinder export to Matrix", tfUI("tf")),
       "Toolkits",
       nav_panel("Introduction", includeMarkdown("toolkits/toolkits.md")),

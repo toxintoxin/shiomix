@@ -163,25 +163,25 @@ aggrServer <- function(id) {
       fun <- input$summarise_fun
 
       if (fun == "n") {
-        para <- "n = n()"
+        params <- "n = n()"
       } else if (fun == "sum") {
-        para <- "sum = sum(value, na.rm = TRUE)"
+        params <- "sum = sum(value, na.rm = TRUE)"
       } else if (fun == "mean") {
-        para <- "mean = mean(value, na.rm = TRUE)"
+        params <- "mean = mean(value, na.rm = TRUE)"
       } else if (fun == "median") {
-        para <- "median = median(value, na.rm = TRUE)"
+        params <- "median = median(value, na.rm = TRUE)"
       } else if (fun == "max") {
-        para <- "max = max(value, na.rm = TRUE)"
+        params <- "max = max(value, na.rm = TRUE)"
       } else if (fun == "min") {
-        para <- "min = min(value, na.rm = TRUE)"
+        params <- "min = min(value, na.rm = TRUE)"
       }
-      rv$summarise_para = data.frame(summarise = character())
-      rv$summarise_para <- rv$summarise_para %>%
-        filter(summarise != para) %>%
-        bind_rows(data.frame(summarise = para))
+      rv$summarise_params = data.frame(summarise = character())
+      rv$summarise_params <- rv$summarise_params %>%
+        filter(summarise != params) %>%
+        bind_rows(data.frame(summarise = params))
 
       rv$data_l_f_s <- rv$data_l_f_grouped %>%
-        summarise(!!!rlang::parse_exprs(rv$summarise_para$summarise)) %>%
+        summarise(!!!rlang::parse_exprs(rv$summarise_params$summarise)) %>%
         rename("value" = 3)
 
       reset("summarise_fun")

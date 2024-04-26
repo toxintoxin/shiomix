@@ -1,15 +1,12 @@
 md5UI <- function(id) {
   ns <- NS(id)
-  div(
+  tagList(
+    actionButton(ns("readme"), "教程"),
     fluidRow(
-      column(width = 1, actionButton(ns("readme"), "教程"))
-    ),
-    tags$br(),
-    fluidRow(
-      column(width = 2,
+      column(width = 5,
         fileInput(ns("file_tobecheck"), "上传需要检验的md5列表", accept = ".xlsx")
       ),
-      column(width = 2,
+      column(width = 5,
         fileInput(ns("file_true"), "上传md5sum", accept = ".md5")
       ),
       column(width = 2, style = "margin-top: 25px;",

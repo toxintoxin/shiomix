@@ -1,6 +1,6 @@
 vsUI <- function(id) {
   ns <- NS(id)
-  # layout_sidebar(height = "900px", border = FALSE, class = "p-0",
+  # layout_sidebar(height = "700px", border = FALSE, class = "p-0",
   #   sidebar = sidebar(width = "200px",
   #     actionButton(ns("nav_fullscreen"), "切换视图进行导航 (still building)"),
   #     radioButtons(ns("nav"), label = "Visualization types",
@@ -127,8 +127,8 @@ vsUniversalUI <- function(id) {
   tagList(
     div(style = "display: flex; gap: 20px;",
       actionButton(ns("apply"), label = "Apply & Refresh", width = "200px"),
-      numericInput(ns("output_width"), label = "Width (px)", width = "100px", min = 100, max = 3000, value = 400),
-      numericInput(ns("output_height"), label = "Height (px)", width = "100px", min = 100, max = 3000, value = 600),
+      numericInputIcon(ns("output_width"), label = NULL, width = "200px", min = 1, max = 30, value = 4, icon = list("Width", "cm")),
+      numericInputIcon(ns("output_height"), label = NULL, width = "200px", min = 1, max = 30, value = 4, icon = list("Height", "cm")),
       dropMenu(
         actionButton(ns("output_ggsave"), "导出为", icon = icon("image"), style = "margin-left: auto;"),
         placement = "bottom-end", arrow = FALSE,
@@ -165,18 +165,18 @@ vsUniversalServer <- function(id, suffix, rv) {
 
     ns <- session$ns
 
-    width <- reactive({
-      input$output_width
-    })
-    height <- reactive({
-      input$output_height
-    })
+    # width <- reactive({
+    #   input$output_width
+    # })
+    # height <- reactive({
+    #   input$output_height
+    # })
     # res <- reactive({
     #   as.numeric(input$output_res)
     # })
 
     output$output_size <- renderText({
-      paste0("实际大小: ", round(width() /96 *25.4, 2), " x ", round(height() /96 *25.4, 2), " mm")    # 96是因为renderplot的res设为了96
+      paste0("实际大小: ", round(input$output_width, 3), " x ", round(input$output_height, 3), " cm")
     })
 
     observe({
@@ -188,7 +188,7 @@ vsUniversalServer <- function(id, suffix, rv) {
         paste0(rv$name, "_", suffix, ".png")
       },
       content = function(file) {
-        ggsave(file, plot = rv$plot_final, device = "png", width = width() /96 *72, height = height() /96 *72, unit = "in", dpi = 72)
+        ggsave(file = file, plot = rv$plot_final, device = "png", width = input$output_width, height = input$output_height, unit = "cm", dpi = 72)
       }
     )
 
@@ -197,7 +197,7 @@ vsUniversalServer <- function(id, suffix, rv) {
         paste0(rv$name, "_", suffix, ".png")
       },
       content = function(file) {
-        ggsave(file, plot = rv$plot_final, device = "png", width = width() /96 *300, height = height() /96 *300, unit = "in", dpi = 300)
+        ggsave(file = file, plot = rv$plot_final, device = "png", width = input$output_width, height = input$output_height, unit = "cm", dpi = 300)
       }
     )
 
@@ -206,17 +206,19 @@ vsUniversalServer <- function(id, suffix, rv) {
         paste0(rv$name, "_", suffix, ".svg")
       },
       content = function(file) {
-        ggsave(file, plot = rv$plot_final, device = "svg", width = width(), height = height(), unit = "px", dpi = 72)
+        ggsave(file = file, plot = rv$plot_final, device = "svg", width = input$output_width, height = input$output_height, unit = "cm")
       }
     )
 
     output$plotoutput_ui <- renderUI({
-      plotOutput(ns("plot"), width = width(), height = height())
+      plotOutput(ns("plot"), width = input$output_width/2.54*96, height = input$output_height/2.54*96)
     })
     # shiny render and save solution
     # https://www.tidyverse.org/blog/2020/08/taking-control-of-plot-scaling/
     # observeEvent(input$output_res, {
       output$plot <- renderPlot(
+        # width = function() input$output_width/2.54*96,
+        # height = function() input$output_height/2.54*96,
         res = 96,  # default paramter is 72, R is 96
         {
           req(rv$plot_final)
