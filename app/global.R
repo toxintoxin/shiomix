@@ -24,7 +24,7 @@ adducts <- rbind(adducts, adducts_H2O_H)
 data(isotopes)
 library(markdown)
 library(broom)  # tidy()
-options(shiny.maxRequestSize = 100 * 1024^2)
+options(shiny.maxRequestSize = 300 * 1024^2)
 
 source("helpers.R")
 

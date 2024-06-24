@@ -72,6 +72,12 @@ tfServer <- function(id) {
     # process
     observeEvent(input$process, {
 
+      # 定义如何应用内标
+      std_ref <- stdmix_apply() %>%
+        pivot_longer(-c(1:4), values_to = "apply") %>%
+        drop_na("apply") %>%
+        select(-"name")
+
       # 提取Compound, Filename, Area
       rv$result1 <- rv$data_original %>%
         rename("var" = 1) %>%
@@ -80,36 +86,36 @@ tfServer <- function(id) {
       # 不具有标准曲线的Compound的Area
       rv$result2 <- rv$result1 %>%
         mutate(class = str_extract(var, "\\S+")) %>%
-        anti_join(stdmix_apply(), by = "class") %>%
+        anti_join(std_ref, by = c("class" = "apply")) %>%
         select(-"class")
 
       # 剩下的用外标法转换后
       rv$result3 <- rv$result1 %>%
         mutate(class = str_extract(var, "\\S+")) %>%
-        inner_join(stdmix_apply(), by = "class") %>%
-        mutate(afterESpmol = 10^((log10(Area) - b) / a))
+        inner_join(std_ref, by = c("class" = "apply")) %>%
+        mutate(pmol_ES = 10^((log10(Area) - b) / a))
 
       # 检查ISTD
       rv$result4 <- rv$result3 %>% filter(grepl("ISTD", var))
 
       # 再用内标回复到总样品中的pmol
       rv$result5 <- rv$result3 %>%
-        left_join(rv$result4[c("Filename", "class", "afterESpmol")], by = c("Filename", "class")) %>%
-        mutate(afterESafterISpmol = afterESpmol.x * amount / afterESpmol.y) %>%
+        left_join(rv$result4[c("Filename", "compound", "pmol_ES")], by = c("Filename", "compound")) %>%
+        mutate(pmol_ESIS = pmol_ES.x * amount / pmol_ES.y) %>%
         filter(!grepl("ISTD", var))
 
       # 把结果都转成宽数据
       rv$result1 <- rv$result1 %>% pivot_wider(names_from = "Filename", values_from = "Area")
       rv$result2 <- rv$result2 %>% pivot_wider(names_from = "Filename", values_from = "Area")
       rv$result3 <- rv$result3 %>%
-        select(c("var", "Filename", "afterESpmol")) %>%
-        pivot_wider(names_from = "Filename", values_from = "afterESpmol")
+        select(c("var", "Filename", "pmol_ES")) %>%
+        pivot_wider(names_from = "Filename", values_from = "pmol_ES")
       rv$result4 <- rv$result4 %>%
-        select(c("var", "Filename", "afterESpmol")) %>%
-        pivot_wider(names_from = "Filename", values_from = "afterESpmol")
+        select(c("var", "Filename", "pmol_ES")) %>%
+        pivot_wider(names_from = "Filename", values_from = "pmol_ES")
       rv$result5 <- rv$result5 %>%
-        select(c("var", "Filename", "afterESafterISpmol")) %>%
-        pivot_wider(names_from = "Filename", values_from = "afterESafterISpmol")
+        select(c("var", "Filename", "pmol_ESIS")) %>%
+        pivot_wider(names_from = "Filename", values_from = "pmol_ESIS")
     })
 
     # 渲染表格

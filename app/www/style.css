@@ -10,6 +10,28 @@
   height: 50vh;
 } */
 
+.navradio input[type="radio"] {
+  display: none;
+}
+
+.navradio span {
+  padding: 0px 5px;
+}
+
+.navradio label:hover span {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #bdbdbd;
+  color: white;
+}
+
+.navradio input[type="radio"]:checked + span {
+  border-radius: 5px;
+  background-color: #009688;
+  color: white;
+}
+
+
 .figure-group {
   display: flex;
   flex-wrap: wrap;

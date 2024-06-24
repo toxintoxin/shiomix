@@ -1,14 +1,14 @@
 formula_calc_singleUI <- function(id) {
   ns <- NS(id)
   tagList(
-    div(style = "display: flex; gap: 1%;",
+    layout_columns(col_widths = c(5, 2, 2),
       textInput(ns("compound_formula"), "Formula 检查大小写是必要的"),
       pickerInput(ns("adduct_select"), "Adduct", choices = adducts$Name, choicesOpt = list(icon = c(rep("glyphicon-minus", 18), rep("glyphicon-plus", 34))), selected = "M+H", options = list(`live-search` = TRUE)),
       actionButton(ns("compound_details"), "View the Details")
     ),
-    div(
-      "Adduct_mz",
-      verbatimTextOutput(ns("adduct_mz"))
+    layout_columns(col_widths = c(6, 6),
+      verbatimTextOutput(ns("adduct_mz")),
+      plotOutput(ns("adduct_pattern"))
     )
   )
 }
@@ -55,6 +55,9 @@ formula_calc_singleServer <- function(id) {
       )
       output$adduct_mz <- renderPrint({
         pattern
+      })
+      output$adduct_pattern <- renderPlot({
+        ggplot(pattern[[1]], aes(x = `m/z`, y = abundance)) + geom_segment(aes(xend = `m/z`, yend = 0)) + geom_text(aes(label = `m/z`))
       })
       # adduct_mz <- lapply(pattern, function(matrix) {
       #       # 从矩阵中提取 abundance 列为 100 的行

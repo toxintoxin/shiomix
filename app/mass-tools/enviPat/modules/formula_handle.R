@@ -1,23 +1,13 @@
 formula_handleUI <- function(id) {
   ns <- NS(id)
   tagList(
-    fluidRow(
-      column(width = 3,
-        fileInput(ns("formula_handle_file"), "上传化合物列表", accept = ".xlsx")
-      ),
-      column(width = 2, style = "margin-top: 25px",
-        actionButton(ns("formula_handle_filter"), "添加筛选条件")
-      ),
-      column(width = 1, style = "margin-top: 25px; text-align: right;",
-        downloadButton(ns("formula_handle_template"), "下载模板")
-      ),
-      column(width = 6, style = "margin-top: 25px; text-align: right;",
-        downloadButton(ns("formula_handle_download"), "下载结果", icon = icon("file-export"))
-      )
+    layout_columns(col_widths = c(5, 2, 2, 3),
+      fileInput(ns("formula_handle_file"), "上传化合物列表", accept = ".xlsx"),
+      actionButton(ns("formula_handle_filter"), "添加筛选条件"),
+      downloadButton(ns("formula_handle_template"), "下载模板"),
+      downloadButton(ns("formula_handle_download"), "下载结果", icon = icon("file-export"))
     ),
-    fluidRow(
-      DTOutput(ns("formula_handle_list"))
-    )
+    DTOutput(ns("formula_handle_list"))
   )
 }
 

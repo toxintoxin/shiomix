@@ -24,4 +24,7 @@ server <- function(input, output, session) {
   # toolkits
   md5Server("md5")
 
+  observe({
+    nav_select(id = "nav_main", selected = input$nav)
+  })
 }

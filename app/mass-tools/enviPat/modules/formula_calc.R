@@ -1,23 +1,13 @@
 formula_calcUI <- function(id) {
   ns <- NS(id)
   tagList(
-    fluidRow(
-      column(width = 3,
-        fileInput(ns("compound_list_file"), "上传化合物列表", accept = ".xlsx")
-      ),
-      column(width = 2, style = "margin-top: 25px",
-        actionButton(ns("compound_list_mz_calc"), "计算adduct")
-      ),
-      column(width = 1, style = "margin-top: 25px; text-align: right;",
-        downloadButton(ns("compound_list_template"), "下载模板")
-      ),
-      column(width = 6, style = "margin-top: 25px; text-align: right;",
-        downloadButton(ns("compound_mz_list_download"), "下载结果", icon = icon("file-export"))
-      )
+    layout_columns(col_widths = c(5, 2, 2, 3),
+      fileInput(ns("compound_list_file"), "上传化合物列表", accept = ".xlsx"),
+      actionButton(ns("compound_list_mz_calc"), "计算adduct"),
+      downloadButton(ns("compound_list_template"), "下载模板"),
+      downloadButton(ns("compound_mz_list_download"), "下载结果", icon = icon("file-export"))
     ),
-    fluidRow(
-      DTOutput(ns("compound_mz_list"))
-    )
+    DTOutput(ns("compound_mz_list"))
   )
 }
 
