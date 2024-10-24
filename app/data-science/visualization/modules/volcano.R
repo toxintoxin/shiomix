@@ -90,7 +90,7 @@ volcanoServer <- function(id) {
       p <- rv$data %>%
         ggplot(aes(x = log2FC, y = -log10(p.ajusted), colour = change)) +
         geom_point(alpha = input$point_alpha, size = input$point_size) +
-        scale_colour_manual(values = c(input$point_up, input$point_ns, input$point_down))
+        scale_colour_manual(values = c("Up" = input$point_up, "None" = input$point_ns, "Down" = input$point_down))
 
       if (input$assist_lines) {
         p <- p +

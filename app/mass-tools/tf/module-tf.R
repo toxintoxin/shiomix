@@ -1,12 +1,14 @@
-Lipidomics <- read_csv("mass-tools/tf/Lipidomics.csv")
-Lipidomics_FSH <- read_csv("mass-tools/tf/Lipidomics_FSH.csv")
+stdmix_files <- list.files("mass-tools/tf/stdmix/", pattern = "\\.csv$", full.names = TRUE)
+stdmix_files_names <- tools::file_path_sans_ext(basename(stdmix_files))
+
+stdmix_list <- setNames(lapply(stdmix_files, read_csv), stdmix_files_names)
 
 tfUI <- function(id) {
   ns <- NS(id)
   layout_sidebar(
     sidebar = sidebar(width = "25%", open = "always",
       excelInput(ns("data"), header = "Data"),
-      selectInput(ns("stdmix"), "内标", choices = c("Lipidomics", "Lipidomics_FSH")),
+      selectInput(ns("stdmix"), "内标", choices = stdmix_files_names),
       numericInput(ns("stdmix_num"), "份数", value = 1, min = 0.1, max = 2, step = 0.1, width = "80px"),
       tableOutput(ns("stdmix_check")),
       actionButton(ns("process"), "Process", icon = icon("play"))
@@ -56,7 +58,7 @@ tfServer <- function(id) {
 
     # 实际应用的内标
     stdmix_apply <- reactive({
-      get(input$stdmix) %>% mutate(amount = amount * input$stdmix_num)
+      stdmix_list[[input$stdmix]] %>% mutate(amount = amount * input$stdmix_num)
     })
 
     # 内标dropMenu内表格的渲染
