@@ -14,8 +14,8 @@ library(readxl)
 library(openxlsx)
 library(ggplot2)
 library(ggrepel)
+library(ComplexHeatmap)
 library(plotly)
-# library(ComplexHeatmap)
 library(enviPat)
 data(adducts)
 # 扩展adducts
@@ -27,6 +27,9 @@ library(broom)  # tidy()
 options(shiny.maxRequestSize = 300 * 1024^2)
 
 source("helpers.R")
+
+source("create_sidebar_menu_header.R")
+source("create_sidebar_link.R")
 
 source("data-science/aggregate/module-aggr.R")
 

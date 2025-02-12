@@ -72,7 +72,7 @@ volcanoServer <- function(id) {
       rv$data$log2FC <- log2(rv$data$FC)
     })
 
-    observeEvent(input$apply, {
+    plot_interactive <- function() {
 
       pthreshold <- input$pthreshold
       fcthreshold <- input$fcthreshold
@@ -80,15 +80,17 @@ volcanoServer <- function(id) {
       rv$data <- rv$data %>%
         mutate(
           change = case_when(
-            p.ajusted < pthreshold & abs(log2FC) > log2(fcthreshold) ~ ifelse(log2FC > log2(fcthreshold), "Up", "Down"),
+            p.value < pthreshold & abs(log2FC) > log2(fcthreshold) ~ ifelse(log2FC > log2(fcthreshold), "Up", "Down"),
             TRUE ~ "None"
           )
         )
 
       rv$data$change <- factor(rv$data$change, levels = c("Up", "None", "Down"))
 
+      rv$data$label <- ifelse(rv$data$change %in% c("Up", "Down"), rv$data$var, NA)
+
       p <- rv$data %>%
-        ggplot(aes(x = log2FC, y = -log10(p.ajusted), colour = change)) +
+        ggplot(aes(x = log2FC, y = -log10(p.value), colour = change)) +
         geom_point(alpha = input$point_alpha, size = input$point_size) +
         scale_colour_manual(values = c("Up" = input$point_up, "None" = input$point_ns, "Down" = input$point_down))
 
@@ -98,8 +100,11 @@ volcanoServer <- function(id) {
           geom_vline(xintercept = c(-log2(fcthreshold), log2(fcthreshold)), linetype = input$vline_linetype, colour = input$vline_colour)
       }
 
+      return(p)
+    }
 
-      rv$plot_init <- p
+    observeEvent(input$apply, {
+      rv$plot_init <- plot_interactive()
       rv$plot_labeled <- gglabsServer(NULL, rv$plot_init)
       rv$plot_final <- ggthemeServer(NULL, rv$plot_labeled)
     })

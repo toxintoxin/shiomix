@@ -75,7 +75,7 @@ pieServer <- function(id) {
           mutate(label = value)
       } else if (input$label_view == "Percent") {
         rv$data %>%
-          mutate(label = scales::percent(value/sum(value)))
+          mutate(label = scales::percent(value/sum(value), accuracy = 0.01))
       }
 
       df <- df %>% mutate(
