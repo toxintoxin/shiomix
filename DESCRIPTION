@@ -13,5 +13,14 @@ Depends:
     R (>= 3.5)
 LazyData: true
 Imports:
+    bslib,
+    dplyr,
+    DT,
+    forcats,
     ggplot2,
-    shiny
+    readr,
+    readxl,
+    shiny,
+    shinyjs,
+    shinyWidgets,
+    stringr
