@@ -30,13 +30,16 @@ app_server <- function(input, output, session) {
   #   updateTabsetPanel(session, inputId = "tabs", selected = "homepage")
   # })
 
-  # add observers to switch to the clicked link's tab:
-  lapply(sidebar_link_ids, \(id) {
-    observeEvent(input[[id]], {
-      freezeReactiveValue(input, "tabs")
-      updateTabsetPanel(session = session, inputId = "tabs", selected = id)
-    })
-  })
+  # # add observers to switch to the clicked link's tab:
+  # lapply(sidebar_link_ids, \(id) {
+  #   observeEvent(input[[id]], {
+  #     freezeReactiveValue(input, "tabs")
+  #     updateTabsetPanel(session = session, inputId = "tabs", selected = id)
+  #   })
+  # })
+
+  observe(nav_select("container", input$radio))
+
 
   minimal_test_server("mini")
 

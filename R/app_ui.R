@@ -3,6 +3,7 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import bslib
 #' @noRd
 app_ui <- function(request) {
 
@@ -33,202 +34,222 @@ app_ui <- function(request) {
       ),
     ),
     # useShinyjs(),
-    tags$body(
-      # class = "bg-light",
-      bootstrapLib(theme = bslib::bs_theme(version = 5)),
-      suppressDependencies("bootstrap"),
-      tags$div(
-        class = "d-flex vh-100",
-        # sidebar
-        tags$div(
-          class = "flex-shrink-0 p-3 bg-white border-end shadow-sm",
-          style = "width: 260px; overflow-y: auto;",
-          tags$a(
-            class = paste(
-              "d-flex align-items-center pb-3 mb-3 link-body-emphasis",
-              "text-decoration-none border-bottom"
-            ),
-            tags$span(
-              style = "font-size: 2rem; font-family: 'Courier New', monospace; color: #333; font-weight: bold;",
-              "Shiomix"
+    page_fillable(
+      layout_sidebar(
+        sidebar = sidebar(
+          radioButtons(
+            inputId = "radio",
+            label = "Radio buttons",
+            choices = list(
+
+              "Option 1" = "A",
+              "Option 2" = "B",
+              "Option 3" = "C",
+              "TraceFinder to Matrix" = "tf",
+              "Data preprocessing" = "pp"
+
             )
-          ),
-          tags$ul(
-            class = "list-unstyled ps-0",
-            tags$li(
-              tags$span(
-                class = "fs-5 fw-semibold ps-2",
-                "Data Science"
-              ),
-            ),
-            tags$li(
-              lass = "mb-1",
-              create_sidebar_menu_header(
-                title = "Statistics",
-                data_bs_target = "#statistics_collapse"
-              ),
-              tags$div(
-                class = "collapse",
-                id = "statistics_collapse",
-                tags$ul(
-                  class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
-                  create_sidebar_link(id = "ttest", label = "ttest"),
-                )
-              )
-            ),
-            tags$li(
-              lass = "mb-1",
-              create_sidebar_menu_header(
-                title = "Visualization",
-                data_bs_target = "#visualization_collapse"
-              ),
-              tags$div(
-                class = "collapse",
-                id = "visualization_collapse",
-                tags$ul(
-                  class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
-                  create_sidebar_link(id = "pie", label = "饼图"),
-                  create_sidebar_link(id = "bar", label = "柱状图"),
-                  create_sidebar_link(id = "volcano", label = "火山图"),
-                  create_sidebar_link(id = "nightingale", label = "南丁格尔玫瑰图"),
-                )
-              )
-            ),
-            tags$li(class = "border-top my-3"),
-            tags$li(
-              tags$span(
-                class = "fs-5 fw-semibold ps-2",
-                "Omics"
-              ),
-            ),
-            tags$li(
-              lass = "mb-1",
-              create_sidebar_menu_header(
-                title = "Universal",
-                data_bs_target = "#universal_collapse"
-              ),
-              tags$div(
-                class = "collapse",
-                id = "universal_collapse",
-                tags$ul(
-                  class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
-                  create_sidebar_link(id = "data_preprocessing", label = "Data Preprocessing"),
-                )
-              )
-            ),
-            # minimal test
-            tags$li(
-              lass = "mb-1",
-              create_sidebar_menu_header(
-                title = "MINIMAL TEST",
-                data_bs_target = "#minimal_test_collapse"
-              ),
-              tags$div(
-                class = "collapse",
-                id = "minimal_test_collapse",
-                tags$ul(
-                  class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
-                  create_sidebar_link(id = "minimal_test", label = "minimal test"),
-                )
-              )
-            ),
-            # ------------------------------------------------------------------
-            tags$li(class = "border-top my-3"),
-            tags$li(
-              tags$span(
-                class = "fs-5 fw-semibold ps-2",
-                "Mass tools"
-              ),
-            ),
-            tags$li(
-              lass = "mb-1",
-              create_sidebar_menu_header(
-                title = "enviPat",
-                data_bs_target = "#enviPat_collapse"
-              ),
-              tags$div(
-                class = "collapse",
-                id = "enviPat_collapse",
-                tags$ul(
-                  class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
-                  create_sidebar_link(id = "formula_handle", label = "formula handle"),
-                )
-              )
-            ),
-            tags$li(
-              lass = "mb-1",
-              create_sidebar_menu_header(
-                title = "FSH pipeline",
-                data_bs_target = "#fsh_pipeline_collapse"
-              ),
-              tags$div(
-                class = "collapse",
-                id = "fsh_pipeline_collapse",
-                tags$ul(
-                  class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
-                  create_sidebar_link(id = "tf", label = "TraceFinder export to Matrix"),
-                )
-              )
-            ),
-            tags$li(class = "border-top my-3"),
-            tags$li(
-              tags$span(
-                class = "fs-5 fw-semibold ps-2",
-                "Toolkits"
-              ),
-            ),
-            tags$li(
-              class = "mb-1",
-              create_sidebar_menu_header(
-                title = "Mess",
-                data_bs_target = "#mess_collapse"
-              ),
-              tags$div(
-                class = "collapse",
-                id = "mess_collapse",
-                tags$ul(
-                  class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
-                  create_sidebar_link(id = "md5_check", label = "MD5 check"),
-                )
-              )
-            ),
           )
         ),
-        # main
-        tags$div(
-          class = "main flex-grow-1",
-          style = "padding: 10px; overflow-y: auto;",
-          tabsetPanel(
-            id = "tabs",
-            type = "hidden",
-            tabPanelBody(
-              value = "ttest",
-              tags$h3("here is ttest panel")
-            ),
-            tabPanelBody(
-              value = "minimal_test",
-              minimal_test_ui("mini")
-            ),
-            tabPanelBody(
-              value = "data_preprocessing",
-              ppUI("pp")
-            ),
-            tabPanelBody(
-              value = "tf",
-              tfUI("tf")
-            ),
-          )
+        navset_hidden(
+          id = "container",
+          nav_panel_hidden("A", "aaaaaaaaaa"),
+          nav_panel_hidden("B", "bbbbbbbbbb"),
+          nav_panel_hidden("C", "cccccccccc"),
+          nav_panel_hidden("pp", ppUI("pp")),
+          nav_panel_hidden("tf", tfUI("tf"))
         )
-      ),
-      # bootstrap js:
-      tags$script(
-        src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js",
-        integrity = "sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz",
-        crossorigin = "anonymous"
-      ),
-      # script.js:
-      tags$script(src = "www/script.js")
-    )
+      )
+    ),
+
+    # tags$body(
+    #   # class = "bg-light",
+    #   bootstrapLib(theme = bslib::bs_theme(version = 5)),
+    #   suppressDependencies("bootstrap"),
+    #   tags$div(
+    #     class = "d-flex vh-100",
+    #     # sidebar
+    #     tags$div(
+    #       class = "flex-shrink-0 p-3 bg-white border-end shadow-sm",
+    #       style = "width: 260px; overflow-y: auto;",
+    #       tags$a(
+    #         class = paste(
+    #           "d-flex align-items-center pb-3 mb-3 link-body-emphasis",
+    #           "text-decoration-none border-bottom"
+    #         ),
+    #         tags$span(
+    #           style = "font-size: 2rem; font-family: 'Courier New', monospace; color: #333; font-weight: bold;",
+    #           "Shiomix"
+    #         )
+    #       ),
+    #       tags$ul(
+    #         class = "list-unstyled ps-0",
+    #         tags$li(
+    #           tags$span(
+    #             class = "fs-5 fw-semibold ps-2",
+    #             "Data Science"
+    #           ),
+    #         ),
+    #         tags$li(
+    #           lass = "mb-1",
+    #           create_sidebar_menu_header(
+    #             title = "Statistics",
+    #             data_bs_target = "#statistics_collapse"
+    #           ),
+    #           tags$div(
+    #             class = "collapse",
+    #             id = "statistics_collapse",
+    #             tags$ul(
+    #               class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
+    #               create_sidebar_link(id = "ttest", label = "ttest"),
+    #             )
+    #           )
+    #         ),
+    #         tags$li(
+    #           lass = "mb-1",
+    #           create_sidebar_menu_header(
+    #             title = "Visualization",
+    #             data_bs_target = "#visualization_collapse"
+    #           ),
+    #           tags$div(
+    #             class = "collapse",
+    #             id = "visualization_collapse",
+    #             tags$ul(
+    #               class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
+    #               create_sidebar_link(id = "pie", label = "饼图"),
+    #               create_sidebar_link(id = "bar", label = "柱状图"),
+    #               create_sidebar_link(id = "volcano", label = "火山图"),
+    #               create_sidebar_link(id = "nightingale", label = "南丁格尔玫瑰图"),
+    #             )
+    #           )
+    #         ),
+    #         tags$li(class = "border-top my-3"),
+    #         tags$li(
+    #           tags$span(
+    #             class = "fs-5 fw-semibold ps-2",
+    #             "Omics"
+    #           ),
+    #         ),
+    #         tags$li(
+    #           lass = "mb-1",
+    #           create_sidebar_menu_header(
+    #             title = "Universal",
+    #             data_bs_target = "#universal_collapse"
+    #           ),
+    #           tags$div(
+    #             class = "collapse",
+    #             id = "universal_collapse",
+    #             tags$ul(
+    #               class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
+    #               create_sidebar_link(id = "data_preprocessing", label = "Data Preprocessing"),
+    #             )
+    #           )
+    #         ),
+    #         # minimal test
+    #         tags$li(
+    #           lass = "mb-1",
+    #           create_sidebar_menu_header(
+    #             title = "MINIMAL TEST",
+    #             data_bs_target = "#minimal_test_collapse"
+    #           ),
+    #           tags$div(
+    #             class = "collapse",
+    #             id = "minimal_test_collapse",
+    #             tags$ul(
+    #               class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
+    #               create_sidebar_link(id = "minimal_test", label = "minimal test"),
+    #             )
+    #           )
+    #         ),
+    #         # ------------------------------------------------------------------
+    #         tags$li(class = "border-top my-3"),
+    #         tags$li(
+    #           tags$span(
+    #             class = "fs-5 fw-semibold ps-2",
+    #             "Mass tools"
+    #           ),
+    #         ),
+    #         tags$li(
+    #           lass = "mb-1",
+    #           create_sidebar_menu_header(
+    #             title = "enviPat",
+    #             data_bs_target = "#enviPat_collapse"
+    #           ),
+    #           tags$div(
+    #             class = "collapse",
+    #             id = "enviPat_collapse",
+    #             tags$ul(
+    #               class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
+    #               create_sidebar_link(id = "formula_handle", label = "formula handle"),
+    #             )
+    #           )
+    #         ),
+    #         tags$li(
+    #           lass = "mb-1",
+    #           create_sidebar_menu_header(
+    #             title = "FSH pipeline",
+    #             data_bs_target = "#fsh_pipeline_collapse"
+    #           ),
+    #           tags$div(
+    #             class = "collapse",
+    #             id = "fsh_pipeline_collapse",
+    #             tags$ul(
+    #               class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
+    #               create_sidebar_link(id = "tf", label = "TraceFinder export to Matrix"),
+    #             )
+    #           )
+    #         ),
+    #         tags$li(class = "border-top my-3"),
+    #         tags$li(
+    #           tags$span(
+    #             class = "fs-5 fw-semibold ps-2",
+    #             "Toolkits"
+    #           ),
+    #         ),
+    #         tags$li(
+    #           class = "mb-1",
+    #           create_sidebar_menu_header(
+    #             title = "Mess",
+    #             data_bs_target = "#mess_collapse"
+    #           ),
+    #           tags$div(
+    #             class = "collapse",
+    #             id = "mess_collapse",
+    #             tags$ul(
+    #               class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
+    #               create_sidebar_link(id = "md5_check", label = "MD5 check"),
+    #             )
+    #           )
+    #         ),
+    #       )
+    #     ),
+    #     # main
+    #     tags$div(
+    #       class = "main flex-grow-1",
+    #       style = "padding: 10px; overflow-y: auto;",
+    #       tabsetPanel(
+    #         id = "tabs",
+    #         type = "hidden",
+    #         tabPanelBody(
+    #           value = "ttest",
+    #           tags$h3("here is ttest panel")
+    #         ),
+    #         tabPanelBody(
+    #           value = "minimal_test",
+    #           minimal_test_ui("mini")
+    #         ),
+    #         tabPanelBody(
+    #           value = "data_preprocessing",
+    #           ppUI("pp")
+    #         ),
+    #         tabPanelBody(
+    #           value = "tf",
+    #           tfUI("tf")
+    #         ),
+    #       )
+    #     )
+    #   )
+    # )
   )
 
 }
