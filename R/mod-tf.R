@@ -7,9 +7,6 @@
 #' @import tidyr
 #' @import stringr
 
-  data(stdmix_files_names)
-  data(stdmix_list)
-
 tfUI <- function(id) {
   ns <- NS(id)
   layout_sidebar(

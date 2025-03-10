@@ -35,29 +35,55 @@ app_ui <- function(request) {
     ),
     # useShinyjs(),
     page_fillable(
+      padding = 0,
       layout_sidebar(
         sidebar = sidebar(
           radioButtons(
             inputId = "radio",
-            label = "Radio buttons",
+            label = "Panels",
             choices = list(
 
+              "TraceFinder to Matrix" = "tf",
+              "Data preprocessing" = "pp",
+              "minimal-test" = "minimal_test",
               "Option 1" = "A",
               "Option 2" = "B",
               "Option 3" = "C",
-              "TraceFinder to Matrix" = "tf",
-              "Data preprocessing" = "pp"
+              "Option 4" = "D",
+              "Option 5" = "E",
+              "Option 6" = "F",
+              "Option 7" = "G",
+              "Option 8" = "H",
+              "Option 9" = "I",
+              "Option 10" = "J",
+              "Option 11" = "K",
+              "Option 12" = "L",
+              "Option 13" = "M",
+              "Option 14" = "N",
+              "Option 15" = "O",
+              "Option 16" = "P",
+              "Option 17" = "Q",
+              "Option 18" = "R",
+              "Option 19" = "S",
+              "Option 20" = "T",
+              "Option 21" = "U",
+              "Option 22" = "V",
+              "Option 23" = "W",
+              "Option 24" = "X",
+              "Option 25" = "Y",
+              "Option 26" = "Z"
 
             )
           )
         ),
         navset_hidden(
           id = "container",
-          nav_panel_hidden("A", "aaaaaaaaaa"),
-          nav_panel_hidden("B", "bbbbbbbbbb"),
-          nav_panel_hidden("C", "cccccccccc"),
+          nav_panel_hidden("tf", tfUI("tf")),
           nav_panel_hidden("pp", ppUI("pp")),
-          nav_panel_hidden("tf", tfUI("tf"))
+          nav_panel_hidden("minimal_test", minimal_test_ui("mini")),
+          !!!lapply(LETTERS, function(letter) {
+            nav_panel_hidden(letter, paste("Here is panel", letter))
+          })
         )
       )
     ),
