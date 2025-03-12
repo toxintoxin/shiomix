@@ -208,7 +208,7 @@ aggrServer <- function(id) {
         list_of_datasets <- sapply(datas, function(data_name) {
           rv[[data_name]]
         })
-        write.xlsx(list_of_datasets, file)
+        write_xlsx(list_of_datasets, file, format_headers = FALSE)
       }
     )
 

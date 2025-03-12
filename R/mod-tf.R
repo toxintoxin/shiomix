@@ -2,7 +2,6 @@
 #' @import DT
 #' @import readr
 #' @import shinyWidgets
-#' @import shinyjs
 #' @import dplyr
 #' @import tidyr
 #' @import stringr
@@ -72,7 +71,7 @@ tfServer <- function(id) {
 
     # process按钮的禁用与否
     observe({
-      toggleState("process", condition = !is.null(rv$data_original))
+      shinyjs::toggleState("process", condition = !is.null(rv$data_original))
     })
 
     # process
@@ -145,7 +144,7 @@ tfServer <- function(id) {
 
     # 下载按钮的禁用与否
     observe({
-      toggleState("result_download", !is.null(rv$result5))
+      shinyjs::toggleState("result_download", !is.null(rv$result5))
     })
 
     # 文件后缀

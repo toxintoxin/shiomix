@@ -26,7 +26,7 @@ formula_calcServer <- function(id) {
           adduct = c("should be the following", adducts$Name),
           stringsAsFactors = FALSE
         )
-        write.xlsx(compound_list_template, file)
+        write_xlsx(compound_list_template, file, format_headers = FALSE)
       }
     )
 

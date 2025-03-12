@@ -25,7 +25,7 @@ formula_handleServer <- function(id) {
           formula = c(NA),
           stringsAsFactors = FALSE
         )
-        write.xlsx(formula_handle_template, file)
+        write_xlsx(formula_handle_template, file, format_headers = FALSE)
       }
     )
 

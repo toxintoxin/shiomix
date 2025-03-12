@@ -2,7 +2,6 @@
 #' @import DT
 #' @import readr
 #' @import shinyWidgets
-#' @import shinyjs
 #' @import dplyr
 #' @import tidyr
 #' @import stringr
@@ -147,7 +146,7 @@ ppServer <- function(id) {
 
     # description
     observe({
-      toggleState("desc_read", condition = !is.null(rv$data) && (input$desc_source == "从命名读取" || input$desc_source == "从本地导入" && !is.null(input$desc)))
+      shinyjs::toggleState("desc_read", condition = !is.null(rv$data) && (input$desc_source == "从命名读取" || input$desc_source == "从本地导入" && !is.null(input$desc)))
     })
 
     desc_ext <- eventReactive(input$desc, {
@@ -208,7 +207,7 @@ ppServer <- function(id) {
 
     # missing value
     observe({
-      toggleState("missing_value_handle", condition = !is.null(rv$data_o) && input$missing_value_method != "")
+      shinyjs::toggleState("missing_value_handle", condition = !is.null(rv$data_o) && input$missing_value_method != "")
     })
 
     observeEvent(input$missing_value_handle, {
@@ -258,7 +257,7 @@ ppServer <- function(id) {
 
     # normalization
     observe({
-      toggleState("normalization_submit", condition = !is.null(rv$data_o_m) && (
+      shinyjs::toggleState("normalization_submit", condition = !is.null(rv$data_o_m) && (
         input$normalization_method == "Sample Specific" && !is.null(rv$data_o_m_n_factor) ||
         input$normalization_method %in% c("Normalization by sum", "Normalization by median") ||
         input$normalization_method %in% c("Normalization by a reference var", "Normalization by a reference sample (PQN)", "Normalization by a pooled sample from group (group PQN)") && input$normalization_specify != ""
@@ -266,7 +265,7 @@ ppServer <- function(id) {
     })
 
     observe({
-      toggleState("normalization_factor_read", condition = !is.null(rv$data_o_m) && !is.null(input$normalization_factor))
+      shinyjs::toggleState("normalization_factor_read", condition = !is.null(rv$data_o_m) && !is.null(input$normalization_factor))
     })
 
     normalization_factor_ext <- eventReactive(input$normalization_factor, {
@@ -356,7 +355,7 @@ ppServer <- function(id) {
           }
           return(df)
         })
-        openxlsx::write.xlsx(list_of_datasets, file)
+        writexl::write_xlsx(list_of_datasets, file, format_headers = FALSE)
       }
     )
 

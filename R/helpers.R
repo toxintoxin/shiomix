@@ -6,10 +6,12 @@
 excelInput <- function(id, header) {
   ns <- NS(id)
   tagList(
+    shinyjs::useShinyjs(),
     tags$b(header),
     fileInput(ns("file"), label = ".csv or .xlsx", accept = c(".csv", ".xlsx")),
     uiOutput(ns("sheet_ui")),
-    actionButton(ns("read"), label = "Read")
+    bslib::input_task_button(ns("read"), label = "Read")
+    # actionButton(ns("read"), label = "Read")
   )
 }
 
@@ -32,7 +34,7 @@ excelServer <- function(id, na = c("", "NA")) {
     Data <- reactiveVal()
     Name <- reactiveVal()
 
-    observe({toggleState("read", condition = !is.null(input$file))})
+    observe({shinyjs::toggleState("read", condition = !is.null(input$file))})
 
     observeEvent(input$read, {
       if (ext() == "csv") {

@@ -33,7 +33,7 @@ app_ui <- function(request) {
         rel = "stylesheet"
       ),
     ),
-    # useShinyjs(),
+    # shinyjs::useShinyjs(),
     page_fillable(
       padding = 0,
       layout_sidebar(

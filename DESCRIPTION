@@ -23,4 +23,5 @@ Imports:
     shiny,
     shinyjs,
     shinyWidgets,
-    stringr
+    stringr,
+    writexl

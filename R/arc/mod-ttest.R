@@ -89,7 +89,7 @@ print(head(rv$data_long %>% pivot_wider(names_from = "sample", values_from = "va
           result = rv$result,
           phenoData = rv$phenoData
         )
-        write.xlsx(list_of_datasets, file)
+        write_xlsx(list_of_datasets, file, format_headers = FALSE)
       }
     )
 
