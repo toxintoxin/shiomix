@@ -1,6 +1,6 @@
 #' @import shiny
 #' @import ggplot2
-gglabsUI <- function(id) {
+gglabs_ui <- function(id) {
   ns <- NS(id)
   tagList(
     textInput(ns("labs_x"), label = "x轴标题"),
@@ -12,7 +12,7 @@ gglabsUI <- function(id) {
   )
 }
 
-gglabsServer <- function(id, ggobj) {
+gglabs_server <- function(id, ggobj) {
   moduleServer(id, function(input, output, session){
     p_return <- ggobj + labs(
       title = if(input$labs_title == "") {NULL} else{input$labs_title},

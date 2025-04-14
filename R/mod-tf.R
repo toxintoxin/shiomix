@@ -6,7 +6,7 @@
 #' @import tidyr
 #' @import stringr
 
-tfUI <- function(id) {
+tf_ui <- function(id) {
   ns <- NS(id)
   layout_sidebar(
     sidebar = sidebar(width = "25%", open = "always",
@@ -40,14 +40,14 @@ tfUI <- function(id) {
   )
 }
 
-tfServer <- function(id) {
+tf_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
     rv <- reactiveValues()
 
-    data_ls <- excelServer("data", na = "N/F")
+    data_ls <- excel_server("data", na = "N/F")
 
     observe({
       rv$data_original <- data_ls$data()

@@ -1,4 +1,4 @@
-md5UI <- function(id) {
+md5_ui <- function(id) {
   ns <- NS(id)
   tagList(
     actionButton(ns("readme"), "教程"),
@@ -19,7 +19,7 @@ md5UI <- function(id) {
   )
 }
 
-md5Server <- function(id) {
+md5_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns

@@ -1,4 +1,4 @@
-# ggthemeUI <- function(id) {
+# ggtheme_ui <- function(id) {
 #   ns <- NS(id)
 #   tagList(
 #     layout_columns(
@@ -121,7 +121,7 @@
 
 # face2 <- function(face) {if ("B" %in% face && "I" %in% face) {return("bold.italic")} else if ("B" %in% face) {return("bold")} else if ("I" %in% face) {return("italic")} else {return("plain")}}
 
-# ggthemeServer <- function(id, ggobj) {
+# ggtheme_server <- function(id, ggobj) {
 #   moduleServer(id, function(input, output, session) {
 #     p_return <- ggobj + theme(
 

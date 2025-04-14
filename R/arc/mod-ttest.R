@@ -1,4 +1,4 @@
-ttestUI <- function(id) {
+ttest_ui <- function(id) {
   ns <- NS(id)
   layout_sidebar(
     sidebar = sidebar(
@@ -20,21 +20,21 @@ ttestUI <- function(id) {
   )
 }
 
-ttestServer <- function(id) {
+ttest_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
     rv <- reactiveValues()
 
-    data_ls <- excelServer("data")
+    data_ls <- excel_server("data")
 
     observe({
       rv$data_original <- data_ls$data()
       rv$name <- data_ls$name()
     })
 
-    phenoData_ls <- excelServer("phenoData")
+    phenoData_ls <- excel_server("phenoData")
 
     observe({
       rv$phenoData <- phenoData_ls$data()

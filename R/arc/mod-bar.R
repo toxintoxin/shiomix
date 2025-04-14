@@ -1,4 +1,4 @@
-barUI <- function(id) {
+bar_ui <- function(id) {
   ns <- NS(id)
     card(
     card_header(
@@ -74,15 +74,15 @@ barUI <- function(id) {
               )
             )
           ),
-          nav_panel("Labels", gglabsUI(ns(NULL))),
-          nav_panel("Theme", ggthemeUI(ns(NULL)))
+          nav_panel("Labels", gglabs_ui(ns(NULL))),
+          nav_panel("Theme", ggtheme_ui(ns(NULL)))
         )
       ),
       layout_sidebar(border = FALSE, style = "background: #eeeddd",
         sidebar = sidebar(width = "300px", position = "right",
           includeMarkdown(paste0("data-science/visualization/types-readme/", id, ".md")),
         ),
-        vsUniversalUI(ns(NULL))
+        vsUniversal_ui(ns(NULL))
       )
     )
   )
@@ -92,21 +92,21 @@ barUI <- function(id) {
 
 }
 
-barServer <- function(id) {
+bar_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
     rv <- reactiveValues()
 
-    data_ls <- excelServer("data")
+    data_ls <- excel_server("data")
 
     observe({
       rv$data_original <- data_ls$data()
       rv$name <- data_ls$name()
     })
 
-    phenoData_ls <- excelServer("phenoData")
+    phenoData_ls <- excel_server("phenoData")
 
     observe({
       rv$phenoData <- phenoData_ls$data()
@@ -235,11 +235,11 @@ barServer <- function(id) {
         }
 
       rv$plot_init <- p
-      rv$plot_labeled <- gglabsServer(NULL, rv$plot_init)
-      rv$plot_final <- ggthemeServer(NULL, rv$plot_labeled)
+      rv$plot_labeled <- gglabs_server(NULL, rv$plot_init)
+      rv$plot_final <- ggtheme_server(NULL, rv$plot_labeled)
     })
 
-    vsUniversalServer(NULL, id, rv)
+    vsUniversal_server(NULL, id, rv)
 
 
 

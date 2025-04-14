@@ -1,4 +1,4 @@
-formula_handleUI <- function(id) {
+formula_handle_ui <- function(id) {
   ns <- NS(id)
   tagList(
     layout_columns(col_widths = c(5, 2, 2, 3),
@@ -11,7 +11,7 @@ formula_handleUI <- function(id) {
   )
 }
 
-formula_handleServer <- function(id) {
+formula_handle_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session

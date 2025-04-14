@@ -1,4 +1,4 @@
-formula_calcUI <- function(id) {
+formula_calc_ui <- function(id) {
   ns <- NS(id)
   tagList(
     layout_columns(col_widths = c(5, 2, 2, 3),
@@ -11,7 +11,7 @@ formula_calcUI <- function(id) {
   )
 }
 
-formula_calcServer <- function(id) {
+formula_calc_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns

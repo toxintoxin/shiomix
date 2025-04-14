@@ -1,4 +1,4 @@
-nightingaleUI <- function(id) {
+nightingale_ui <- function(id) {
   ns <- NS(id)
   card(
     card_header(
@@ -17,28 +17,28 @@ nightingaleUI <- function(id) {
             selectInput(ns("x"), label = "x轴", choices = c(Choose = "")),
             selectInput(ns("y"), label = "y轴", choices = c(Choose = ""))
           ),
-          nav_panel("Labels", gglabsUI(ns(NULL))),
-          nav_panel("Theme", ggthemeUI(ns(NULL)))
+          nav_panel("Labels", gglabs_ui(ns(NULL))),
+          nav_panel("Theme", ggtheme_ui(ns(NULL)))
         )
       ),
       layout_sidebar(border = FALSE, style = "background: #eeeddd",
         sidebar = sidebar(width = "300px", position = "right",
           includeMarkdown(paste0("data-science/visualization/types-readme/", id, ".md"))
         ),
-        vsUniversalUI(ns(NULL))
+        vsUniversal_ui(ns(NULL))
       )
     )
   )
 }
 
-nightingaleServer <- function(id) {
+nightingale_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
     rv <- reactiveValues()
 
-    data_ls <- excelServer("data")
+    data_ls <- excel_server("data")
 
     observe({
       rv$data_original <- data_ls$data()

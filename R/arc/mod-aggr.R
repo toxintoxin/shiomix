@@ -1,4 +1,4 @@
-aggrUI <- function(id) {
+aggr_ui <- function(id) {
   ns <- NS(id)
   navset_card_pill(height = "820px",
     nav_panel("Upload",
@@ -26,7 +26,7 @@ aggrUI <- function(id) {
         accordion_panel("Upload",
           excelInput(ns("data"), "Data"),
           fileInput(ns("data"), label = ".csv or .xlsx", accept = c(".csv", ".xlsx"), multiple = FALSE),
-          uiOutput(ns("data_sheetUI")),
+          uiOutput(ns("data_sheet_ui")),
           radioButtons(ns("data_format"), label = NULL, choices = c("一般形式", "长数据"), inline = TRUE),
           friendlyAct(ns("data_read"), "读取"),
         ),
@@ -68,7 +68,7 @@ aggrUI <- function(id) {
   )
 }
 
-aggrServer <- function(id) {
+aggr_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
@@ -83,7 +83,7 @@ aggrServer <- function(id) {
       ))
     })
 
-    data_ls <- excelServer("data")
+    data_ls <- excel_server("data")
 
     observe({
       rv$data_original <- data_ls$data()

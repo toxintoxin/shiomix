@@ -46,7 +46,7 @@ app_ui <- function(request) {
               "TraceFinder to Matrix" = "tf",
               "Data preprocessing" = "pp",
               "minimal-test" = "minimal_test",
-              "Option 1" = "A",
+              "PCA Analysis" = "pca",
               "Option 2" = "B",
               "Option 3" = "C",
               "Option 4" = "D",
@@ -78,8 +78,9 @@ app_ui <- function(request) {
         ),
         navset_hidden(
           id = "container",
-          nav_panel_hidden("tf", tfUI("tf")),
-          nav_panel_hidden("pp", ppUI("pp")),
+          nav_panel_hidden("tf", tf_ui("tf")),
+          nav_panel_hidden("pp", pp_ui("pp")),
+          nav_panel_hidden("pca", pca_ui("pca")),
           nav_panel_hidden("minimal_test", minimal_test_ui("mini")),
           !!!lapply(LETTERS, function(letter) {
             nav_panel_hidden(letter, paste("Here is panel", letter))
@@ -266,11 +267,11 @@ app_ui <- function(request) {
     #         ),
     #         tabPanelBody(
     #           value = "data_preprocessing",
-    #           ppUI("pp")
+    #           pp_ui("pp")
     #         ),
     #         tabPanelBody(
     #           value = "tf",
-    #           tfUI("tf")
+    #           tf_ui("tf")
     #         ),
     #       )
     #     )

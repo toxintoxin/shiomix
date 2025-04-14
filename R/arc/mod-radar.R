@@ -1,11 +1,11 @@
-radarUI <- function(id) {
+radar_ui <- function(id) {
   ns <- NS(id)
   tagList(
     "radar widgets"
   )
 }
 
-radarServer <- function(id) {
+radar_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
   })

@@ -9,7 +9,7 @@
 
 
 
-ppUI <- function(id) {
+pp_ui <- function(id) {
   ns <- NS(id)
   navset_card_pill(height = "900px",
     nav_panel("Upload",
@@ -113,7 +113,7 @@ ppUI <- function(id) {
   )
 }
 
-ppServer <- function(id) {
+pp_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
@@ -128,7 +128,7 @@ ppServer <- function(id) {
       ))
     })
 
-    data_ls <- excelServer("data")
+    data_ls <- excel_server("data")
 
     observe({
       rv$data_original <- data_ls$data()

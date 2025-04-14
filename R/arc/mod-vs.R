@@ -1,7 +1,7 @@
 #' @import shiny
 #' 
 
-vsUI <- function(id) {
+vs_ui <- function(id) {
   ns <- NS(id)
   # layout_sidebar(height = "700px", border = FALSE, class = "p-0",
   #   sidebar = sidebar(width = "200px",
@@ -14,13 +14,13 @@ vsUI <- function(id) {
   # )
 }
 
-vsServer <- function(id) {
+vs_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
     # lapply(vs_types, function(vs_type) {
-    #   get(paste0(vs_type, "Server"))(vs_type)
+    #   get(paste0(vs_type, "_server"))(vs_type)
     # })
 
     # observeEvent(input$nav, {
@@ -125,7 +125,7 @@ vsServer <- function(id) {
   })
 }
 
-vsUniversalUI <- function(id) {
+vsUniversal_ui <- function(id) {
   ns <- NS(id)
   tagList(
     div(style = "display: flex; gap: 20px;",
@@ -163,7 +163,7 @@ vsUniversalUI <- function(id) {
 
 
 
-vsUniversalServer <- function(id, suffix, rv) {
+vsUniversal_server <- function(id, suffix, rv) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns

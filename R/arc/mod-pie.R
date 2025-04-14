@@ -1,4 +1,4 @@
-pieUI <- function(id) {
+pie_ui <- function(id) {
   ns <- NS(id)
   card(
     card_header(
@@ -22,28 +22,28 @@ pieUI <- function(id) {
             radioButtons(ns("scale_fill_manual_plan"), label = "颜色方案", choices = c("预设", "手选", "Code"), inline = TRUE),
             uiOutput(ns("scale_fill_manual_params"))
           ),
-          nav_panel("Labels", gglabsUI(ns(NULL))),
-          nav_panel("Theme", ggthemeUI(ns(NULL)))
+          nav_panel("Labels", gglabs_ui(ns(NULL))),
+          nav_panel("Theme", ggtheme_ui(ns(NULL)))
         )
       ),
       layout_sidebar(border = FALSE, style = "background: #eeeddd",
         sidebar = sidebar(width = "300px", position = "right",
           includeMarkdown(paste0("data-science/visualization/types-readme/", id, ".md"))
         ),
-        vsUniversalUI(ns(NULL))
+        vsUniversal_ui(ns(NULL))
       )
     )
   )
 }
 
-pieServer <- function(id) {
+pie_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
     rv <- reactiveValues()
 
-    data_ls <- excelServer("data")
+    data_ls <- excel_server("data")
 
     observe({
       rv$data_original <- data_ls$data()
@@ -122,10 +122,10 @@ pieServer <- function(id) {
       p <- p + coord_polar(theta = "y", direction = if (input$direction == "顺时针") {-1} else if (input$direction == "逆时针") {1})
 
       rv$plot_init <- p
-      rv$plot_labeled <- gglabsServer(NULL, rv$plot_init)
-      rv$plot_final <- ggthemeServer(NULL, rv$plot_labeled)
+      rv$plot_labeled <- gglabs_server(NULL, rv$plot_init)
+      rv$plot_final <- ggtheme_server(NULL, rv$plot_labeled)
     })
-    vsUniversalServer(NULL, id, rv)
+    vsUniversal_server(NULL, id, rv)
 
   })
 }

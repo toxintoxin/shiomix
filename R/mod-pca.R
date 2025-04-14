@@ -1,4 +1,4 @@
-pcaUI <- function(id) {
+pca_ui <- function(id) {
   ns <- NS(id)
   card(
     card_header(
@@ -32,28 +32,28 @@ pcaUI <- function(id) {
               )
             )
           ),
-          nav_panel("Labels", gglabsUI(ns(NULL))),
-          nav_panel("Theme", ggthemeUI(ns(NULL)))
+          # nav_panel("Labels", gglabs_ui(ns(NULL))),
+          # nav_panel("Theme", ggtheme_ui(ns(NULL)))
         )
       ),
-      layout_sidebar(border = FALSE, style = "background: #eeeddd",
-        sidebar = sidebar(width = "300px", position = "right",
-          includeMarkdown(paste0("data-science/visualization/types-readme/", id, ".md"))
-        ),
-        vsUniversalUI(ns(NULL))
-      )
+      # layout_sidebar(border = FALSE, style = "background: #eeeddd",
+      #   sidebar = sidebar(width = "300px", position = "right",
+      #     includeMarkdown(paste0("data-science/visualization/types-readme/", id, ".md"))
+      #   ),
+      #   vsUniversal_ui(ns(NULL))
+      # )
     )
   )
 }
 
-pcaServer <- function(id) {
+pca_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
 
     rv <- reactiveValues()
 
-    data_ls <- excelServer("data")
+    data_ls <- excel_server("data")
 
     observe({
       rv$data_original <- data_ls$data()
@@ -71,6 +71,10 @@ pcaServer <- function(id) {
 
       pca_result <- rv$data_ready %>%
         prcomp(scale. = FALSE)
+
+      percentage <- scales::percent(pca_result$sdev^2 / sum(pca_result$sdev^2), accuracy = 0.01)
+
+      pc_labels <- paste0("PC", seq_along(pca_result$sdev), " (", percentage, ")")
 
       scree_data <- data.frame(
         PC = 1:length(pca_result$sdev),
@@ -113,10 +117,10 @@ pcaServer <- function(id) {
 
     observeEvent(input$apply, {
       rv$plot_init <- plot_interactive()
-      rv$plot_labeled <- gglabsServer(NULL, rv$plot_init)
-      rv$plot_final <- ggthemeServer(NULL, rv$plot_labeled)
+      rv$plot_labeled <- gglabs_server(NULL, rv$plot_init)
+      rv$plot_final <- ggtheme_server(NULL, rv$plot_labeled)
     })
-    vsUniversalServer(NULL, id, rv)
+    # vsUniversal_server(NULL, id, rv)
 
   })
 }

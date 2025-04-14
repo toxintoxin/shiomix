@@ -1,11 +1,11 @@
-boxUI <- function(id) {
+box_ui <- function(id) {
   ns <- NS(id)
   tagList(
     "box widgets"
   )
 }
 
-boxServer <- function(id) {
+box_server <- function(id) {
   moduleServer(id, function(input, output, session) {
 
   })

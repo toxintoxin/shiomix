@@ -40,9 +40,9 @@ app_server <- function(input, output, session) {
 
   observe(nav_select("container", input$radio))
 
-  tfServer("tf")
-  ppServer("pp")
-
+  tf_server("tf")
+  pp_server("pp")
+  pca_server("pca")
 
 
   minimal_test_server("mini")

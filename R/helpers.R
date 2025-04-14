@@ -15,7 +15,7 @@ excelInput <- function(id, header) {
   )
 }
 
-excelServer <- function(id, na = c("", "NA")) {
+excel_server <- function(id, na = c("", "NA")) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
@@ -80,7 +80,7 @@ friendlyAct <- function(id, label, icon = NULL, class = "btn-default") {
   actionButton(id, label, icon = icon, class = class)
 }
 
-friendlyActServer <- function(id, expr) {
+friendlyAct_server <- function(id, expr) {
   moduleServer(NULL, function(input, output, session) {
     ns <- session$ns
     observeEvent(input[[id]], {
@@ -134,7 +134,7 @@ color: red;
 "
 
 
-withBusyIndicatorUI <- function(button) {
+withBusyIndicator_ui <- function(button) {
   id <- button[['attribs']][['id']]
   div(
     shinyjs::useShinyjs(),
@@ -163,7 +163,7 @@ withBusyIndicatorUI <- function(button) {
 
 # Call this function from the server with the button id that is clicked and the
 # expression to run when the button is clicked
-withBusyIndicatorServer <- function(buttonId, expr) {
+withBusyIndicator_server <- function(buttonId, expr) {
   # UX stuff: show the "busy" message, hide the other messages, disable the button
   loadingEl <- sprintf("[data-for-btn=%s] .btn-loading-indicator", buttonId)
   doneEl <- sprintf("[data-for-btn=%s] .btn-done-indicator", buttonId)
@@ -199,7 +199,7 @@ errorFunc <- function(err, buttonId) {
 
 
 # 更新指定bsCollapse中某个panel的style
-withBusyIndicatorServerUpdatecollapse <- function(buttonId, bsCollapseId, panel, session, expr) {
+withBusyIndicator_serverUpdatecollapse <- function(buttonId, bsCollapseId, panel, session, expr) {
   # UX stuff: show the "busy" message, hide the other messages, disable the button
   loadingEl <- sprintf("[data-for-btn=%s] .btn-loading-indicator", buttonId)
   doneEl <- sprintf("[data-for-btn=%s] .btn-done-indicator", buttonId)

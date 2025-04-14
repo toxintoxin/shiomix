@@ -14,7 +14,9 @@ Depends:
 LazyData: true
 Imports:
     bslib,
+    magrittr,
     dplyr,
+    tidyr,
     DT,
     forcats,
     ggplot2,
@@ -24,5 +26,4 @@ Imports:
     shinyjs,
     shinyWidgets,
     stringr,
-    tidyr,
     writexl

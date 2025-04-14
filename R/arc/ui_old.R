@@ -63,33 +63,33 @@
 #         nav_panel_hidden("app_intro", includeMarkdown("homepage.md")),
 #         # data science
 #         nav_panel_hidden("datascience_intro", includeMarkdown("data-science/data-science.md")),
-#         nav_panel_hidden("ttest", ttestUI("ttest")),
+#         nav_panel_hidden("ttest", ttest_ui("ttest")),
 
-#         nav_panel_hidden("饼图", pieUI("pie")),
-#         nav_panel_hidden("柱状图", barUI("bar")),
-#         nav_panel_hidden("PCA主成分分析", pcaUI("pca")),
-#         nav_panel_hidden("火山图", volcanoUI("volcano")),
-#         nav_panel_hidden("热图", heatmapUI("heatmap")),
-#         nav_panel_hidden("南丁格尔玫瑰图", nightingaleUI("nightingale")),
+#         nav_panel_hidden("饼图", pie_ui("pie")),
+#         nav_panel_hidden("柱状图", bar_ui("bar")),
+#         nav_panel_hidden("PCA主成分分析", pca_ui("pca")),
+#         nav_panel_hidden("火山图", volcano_ui("volcano")),
+#         nav_panel_hidden("热图", heatmap_ui("heatmap")),
+#         nav_panel_hidden("南丁格尔玫瑰图", nightingale_ui("nightingale")),
 #         # omics
 #         nav_panel_hidden("omics_intro", includeMarkdown("omics/omics.md")),
 
 
-#         nav_panel_hidden("Data Preprocessing", ppUI("pp")),
+#         nav_panel_hidden("Data Preprocessing", pp_ui("pp")),
 
 
 
 #         # mass tools
 #         nav_panel_hidden("masstools_intro", includeMarkdown("mass-tools/mass-tools.md")),
 
-#         nav_panel_hidden("formula_handle", formula_handleUI("formula_handle")),
-#         nav_panel_hidden("formula_calc_single", formula_calc_singleUI("formula_calc_single")),
-#         nav_panel_hidden("formula_calc", formula_calcUI("formula_calc")),
+#         nav_panel_hidden("formula_handle", formula_handle_ui("formula_handle")),
+#         nav_panel_hidden("formula_calc_single", formula_calc_single_ui("formula_calc_single")),
+#         nav_panel_hidden("formula_calc", formula_calc_ui("formula_calc")),
 
-#         nav_panel_hidden("TraceFinder export to Matrix", tfUI("tf")),
+#         nav_panel_hidden("TraceFinder export to Matrix", tf_ui("tf")),
 #         # toolkits
 #         nav_panel_hidden("toolkits_intro", includeMarkdown("toolkits/toolkits.md")),
-#         nav_panel_hidden("MD5 Check", md5UI("md5"))
+#         nav_panel_hidden("MD5 Check", md5_ui("md5"))
 #       )
 #     )
 
@@ -102,30 +102,30 @@
 #     #   nav_panel("Introduction", includeMarkdown("homepage.md")),
 #     #   "Data Science",
 #     #   nav_panel("Introduction", includeMarkdown("data-science/data-science.md")),
-#     #   # nav_panel("Aggregate", aggrUI("aggr")),
+#     #   # nav_panel("Aggregate", aggr_ui("aggr")),
 #     #   nav_menu("Statistics", align = "right",
-#     #     nav_panel("ttest", ttestUI("ttest"))
+#     #     nav_panel("ttest", ttest_ui("ttest"))
 #     #   ),
 #     #   nav_menu("Visualization", align = "right",
-#     #     nav_panel("饼图", pieUI("pie")),
-#     #     nav_panel("柱状图", barUI("bar")),
-#     #     nav_panel("火山图", volcanoUI("volcano")),
-#     #     nav_panel("南丁格尔玫瑰图", nightingaleUI("nightingale"))
+#     #     nav_panel("饼图", pie_ui("pie")),
+#     #     nav_panel("柱状图", bar_ui("bar")),
+#     #     nav_panel("火山图", volcano_ui("volcano")),
+#     #     nav_panel("南丁格尔玫瑰图", nightingale_ui("nightingale"))
 #     #   ),
 #     #   "Omics",
 #     #   nav_panel("Introduction", includeMarkdown("omics/omics.md")),
-#     #   nav_panel("Data Preprocessing", ppUI("pp")),
+#     #   nav_panel("Data Preprocessing", pp_ui("pp")),
 #     #   "Mass tools",
 #     #   nav_panel("Introduction", includeMarkdown("mass-tools/mass-tools.md")),
 #     #   nav_menu("enviPat", align = "right",
-#     #     nav_panel("formula_handle", formula_handleUI("formula_handle")),
-#     #     nav_panel("formula_calc_single", formula_calc_singleUI("formula_calc_single")),
-#     #     nav_panel("formula_calc", formula_calcUI("formula_calc"))
+#     #     nav_panel("formula_handle", formula_handle_ui("formula_handle")),
+#     #     nav_panel("formula_calc_single", formula_calc_single_ui("formula_calc_single")),
+#     #     nav_panel("formula_calc", formula_calc_ui("formula_calc"))
 #     #   ),
-#     #   nav_panel("TraceFinder export to Matrix", tfUI("tf")),
+#     #   nav_panel("TraceFinder export to Matrix", tf_ui("tf")),
 #     #   "Toolkits",
 #     #   nav_panel("Introduction", includeMarkdown("toolkits/toolkits.md")),
-#     #   nav_panel("MD5 Check", md5UI("md5"))
+#     #   nav_panel("MD5 Check", md5_ui("md5"))
 #     # )
 #   )
 # )
