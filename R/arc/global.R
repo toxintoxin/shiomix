@@ -51,6 +51,4 @@ options(shiny.maxRequestSize = 300 * 1024^2)
 # lapply(enviPat_modules_files, source)
 # enviPat_modules <- tools::file_path_sans_ext(basename(enviPat_modules_files))
 
-# source("mass-tools/tf/module-tf.R")
-
 # source("toolkits/md5check/module-md5check.R")

@@ -43,7 +43,6 @@ app_ui <- function(request) {
             label = "Panels",
             choices = list(
 
-              "TraceFinder to Matrix" = "tf",
               "Data preprocessing" = "pp",
               "minimal-test" = "minimal_test",
               "PCA Analysis" = "pca",
@@ -78,7 +77,6 @@ app_ui <- function(request) {
         ),
         navset_hidden(
           id = "container",
-          nav_panel_hidden("tf", tf_ui("tf")),
           nav_panel_hidden("pp", pp_ui("pp")),
           nav_panel_hidden("pca", pca_ui("pca")),
           nav_panel_hidden("minimal_test", minimal_test_ui("mini")),
@@ -211,21 +209,6 @@ app_ui <- function(request) {
     #             )
     #           )
     #         ),
-    #         tags$li(
-    #           lass = "mb-1",
-    #           create_sidebar_menu_header(
-    #             title = "FSH pipeline",
-    #             data_bs_target = "#fsh_pipeline_collapse"
-    #           ),
-    #           tags$div(
-    #             class = "collapse",
-    #             id = "fsh_pipeline_collapse",
-    #             tags$ul(
-    #               class = "btn-toggle-nav list-unstyled fw-normal pb-1 small",
-    #               create_sidebar_link(id = "tf", label = "TraceFinder export to Matrix"),
-    #             )
-    #           )
-    #         ),
     #         tags$li(class = "border-top my-3"),
     #         tags$li(
     #           tags$span(
@@ -268,10 +251,6 @@ app_ui <- function(request) {
     #         tabPanelBody(
     #           value = "data_preprocessing",
     #           pp_ui("pp")
-    #         ),
-    #         tabPanelBody(
-    #           value = "tf",
-    #           tf_ui("tf")
     #         ),
     #       )
     #     )

@@ -86,7 +86,6 @@
 #         nav_panel_hidden("formula_calc_single", formula_calc_single_ui("formula_calc_single")),
 #         nav_panel_hidden("formula_calc", formula_calc_ui("formula_calc")),
 
-#         nav_panel_hidden("TraceFinder export to Matrix", tf_ui("tf")),
 #         # toolkits
 #         nav_panel_hidden("toolkits_intro", includeMarkdown("toolkits/toolkits.md")),
 #         nav_panel_hidden("MD5 Check", md5_ui("md5"))
@@ -122,7 +121,6 @@
 #     #     nav_panel("formula_calc_single", formula_calc_single_ui("formula_calc_single")),
 #     #     nav_panel("formula_calc", formula_calc_ui("formula_calc"))
 #     #   ),
-#     #   nav_panel("TraceFinder export to Matrix", tf_ui("tf")),
 #     #   "Toolkits",
 #     #   nav_panel("Introduction", includeMarkdown("toolkits/toolkits.md")),
 #     #   nav_panel("MD5 Check", md5_ui("md5"))

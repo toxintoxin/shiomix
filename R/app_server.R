@@ -18,7 +18,6 @@ app_server <- function(input, output, session) {
     # minimal test
     "minimal_test",
     "formula_handle",
-    "tf",
 
     "md5_check"
 
@@ -40,7 +39,6 @@ app_server <- function(input, output, session) {
 
   observe(nav_select("container", input$radio))
 
-  tf_server("tf")
   pp_server("pp")
   pca_server("pca")
 
